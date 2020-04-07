@@ -71,6 +71,8 @@ class Interval {
     }
 }
 
+const BUY_RANGE = Interval.fromLR(90, 110);
+
 class Turnips {
     /**
      * The buying price.
@@ -120,6 +122,19 @@ class Turnips {
             return undefined;
         }
         this.sell[idx] = updated;
+        return updated;
+    }
+
+    /**
+     * Updates the buy price IN-PLACE with the possible buy range..
+     * @returns The new interval, or undefined if it did not work.
+     */
+    updateBuy(): Interval | undefined {
+        const updated = this.buy.intersect(BUY_RANGE);
+        if (updated === undefined) {
+            return undefined;
+        }
+        this.buy = updated;
         return updated;
     }
 
@@ -181,6 +196,7 @@ class Turnips {
         assert(0 <= hiPhaseLen1 && hiPhaseLen1 <= 6);
         const hiPhaseLen2and3 = 7 - hiPhaseLen1;
         assert(0 <= hiPhaseLen3 && hiPhaseLen3 <= hiPhaseLen2and3 - 1);
+        if (!this.updateBuy()) return;
 
         let work = 2;
         for (let i = 0; i < hiPhaseLen1; i++) {
@@ -214,6 +230,8 @@ class Turnips {
     pattern1(peakStart: number): Turnips | undefined {
         this.pattern = 1;
         assert(3 <= peakStart && peakStart <= 9);
+        if (!this.updateBuy()) return;
+
         if (!this.decreasing(2, peakStart, Interval.fromLR(0.85, 0.9), Interval.fromLR(0.03, 0.05))) return;
         let work = peakStart;
         if (!this.updateRel(work++, Interval.fromLR(0.9, 1.4))) return;
@@ -234,6 +252,8 @@ class Turnips {
      */
     pattern2(): Turnips | undefined {
         this.pattern = 2;
+        if (!this.updateBuy()) return;
+
         return this.decreasing(2, 14, Interval.fromLR(0.85, 0.9), Interval.fromLR(0.03, 0.05));
     }
 
@@ -247,7 +267,9 @@ class Turnips {
         this.pattern = 3;
         assert(2 <= peakStart && peakStart <= 9);
         let work = 2;
-        
+
+        if (!this.updateBuy()) return;
+
         if (peakStart > 2) {
             if (!this.decreasing(2, peakStart, Interval.fromLR(0.4, 0.9), Interval.fromLR(0.03, 0.05))) return;
             work = peakStart;
@@ -344,7 +366,7 @@ class Turnips {
 
     generateFirstBuyWeek(): Turnips[] {
         let newThis = this.copy();
-        newThis.buy = Interval.fromLR(90, 110);
+        newThis.buy = BUY_RANGE;
         return newThis.generatePattern3();
     }
 
@@ -359,7 +381,7 @@ class Turnips {
         const buyInterval =
             buy !== undefined ?
             Interval.fromLR(buy, buy) : // Buy price is set.
-            Interval.fromLR(90, 110);
+            BUY_RANGE;
         const sellIntervals = sell.map((price) =>
             price !== undefined ?
             Interval.fromLR(price-1, price) : // As we round up, assume it can be price-1 to price.

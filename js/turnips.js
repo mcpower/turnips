@@ -60,6 +60,7 @@ var Interval = (function () {
     };
     return Interval;
 }());
+var BUY_RANGE = Interval.fromLR(90, 110);
 var Turnips = (function () {
     function Turnips(buy, sell, pattern) {
         assert(sell.length == 14);
@@ -79,6 +80,14 @@ var Turnips = (function () {
             return undefined;
         }
         this.sell[idx] = updated;
+        return updated;
+    };
+    Turnips.prototype.updateBuy = function () {
+        var updated = this.buy.intersect(BUY_RANGE);
+        if (updated === undefined) {
+            return undefined;
+        }
+        this.buy = updated;
         return updated;
     };
     Turnips.prototype.decreasing = function (start, end, startRel, dropRel) {
@@ -109,6 +118,8 @@ var Turnips = (function () {
         assert(0 <= hiPhaseLen1 && hiPhaseLen1 <= 6);
         var hiPhaseLen2and3 = 7 - hiPhaseLen1;
         assert(0 <= hiPhaseLen3 && hiPhaseLen3 <= hiPhaseLen2and3 - 1);
+        if (!this.updateBuy())
+            return;
         var work = 2;
         for (var i = 0; i < hiPhaseLen1; i++) {
             if (!this.updateRel(work++, Interval.fromLR(0.9, 1.4)))
@@ -134,6 +145,8 @@ var Turnips = (function () {
     Turnips.prototype.pattern1 = function (peakStart) {
         this.pattern = 1;
         assert(3 <= peakStart && peakStart <= 9);
+        if (!this.updateBuy())
+            return;
         if (!this.decreasing(2, peakStart, Interval.fromLR(0.85, 0.9), Interval.fromLR(0.03, 0.05)))
             return;
         var work = peakStart;
@@ -155,12 +168,16 @@ var Turnips = (function () {
     };
     Turnips.prototype.pattern2 = function () {
         this.pattern = 2;
+        if (!this.updateBuy())
+            return;
         return this.decreasing(2, 14, Interval.fromLR(0.85, 0.9), Interval.fromLR(0.03, 0.05));
     };
     Turnips.prototype.pattern3 = function (peakStart) {
         this.pattern = 3;
         assert(2 <= peakStart && peakStart <= 9);
         var work = 2;
+        if (!this.updateBuy())
+            return;
         if (peakStart > 2) {
             if (!this.decreasing(2, peakStart, Interval.fromLR(0.4, 0.9), Interval.fromLR(0.03, 0.05)))
                 return;
@@ -236,7 +253,7 @@ var Turnips = (function () {
     };
     Turnips.prototype.generateFirstBuyWeek = function () {
         var newThis = this.copy();
-        newThis.buy = Interval.fromLR(90, 110);
+        newThis.buy = BUY_RANGE;
         return newThis.generatePattern3();
     };
     Turnips.prototype.toString = function () {
@@ -249,7 +266,7 @@ var Turnips = (function () {
         assert(sell.length == 12);
         var buyInterval = buy !== undefined ?
             Interval.fromLR(buy, buy) :
-            Interval.fromLR(90, 110);
+            BUY_RANGE;
         var sellIntervals = sell.map(function (price) {
             return price !== undefined ?
                 Interval.fromLR(price - 1, price) :
