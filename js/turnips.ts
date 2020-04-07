@@ -369,5 +369,6 @@ class Turnips {
 }
 
 // const turnips = Turnips.fromInput(100, [50, 46, 133, 131, 164, 187, undefined, 50, 45, 43, 37, 33]); // my first week
-const turnips = Turnips.fromInput(98, [94, 74, 66, 58]); // my turnips as of writing
-turnips.generateAllPatterns().forEach(t => console.log(t.toString()));
+// const turnips = Turnips.fromInput(98, [94, 74, 66, 58]); // my turnips as of writing
+// turnips.generateAllPatterns().forEach(t => console.log(t.toString()));
+console.log("turnips.ts loaded");

@@ -259,5 +259,4 @@ var Turnips = (function () {
     };
     return Turnips;
 }());
-var turnips = Turnips.fromInput(98, [94, 74, 66, 58]);
-turnips.generateAllPatterns().forEach(function (t) { return console.log(t.toString()); });
+console.log("turnips.ts loaded");
