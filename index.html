@@ -12,7 +12,7 @@
 
 <body>
   <div class="container" style="padding: 30px;">
-    <h1 id="turnip-price-patterns-in-animal-crossing-new-horizons">
+    <h1>
       Turnip price patterns in Animal Crossing: New Horizons
     </h1>
     <p>
@@ -114,23 +114,113 @@
         price used for calculating sell prices will be randomised</a>.</p>
     <h2 id="calculator">Calculator</h2>
     <p>Put your known prices in below and the calculator will predict the prices based on the patterns above.
-      <strong>You can leave any price blank</strong> - including the sell price.</p>
+      <strong>You can leave any price blank.</strong></p>
     <p>
       Some other people have also made calculators based on Ninji's reverse engineering: <a
         href="https://mikebryant.github.io/ac-nh-turnip-prices/index.html">mikebryant</a>, <a
         href="https://elxris.github.io/Turnip-Calculator/">elxris</a>. Be sure to check them out!
     </p>
-    <div class="alert alert-danger" role="alert">
-      <div>
-        Calculator is not finished yet :( Use the other calculators, and check back later!
-      </div>
-      <div>
-        If you know what you're doing, you can use <a href="https://github.com/mcpower/acnh-turnips/blob/gh-pages/js/turnips.ts"><code>turnips.ts</code></a> if you open up your JS console on this site :D
-      </div>
+    <div class="alert alert-warning" role="alert">
+      This calculator is a work in progress!
     </div>
+    <form id="calculator-input">
+      <div class="row mb-3">
+        <div class="form-group col-12 col-sm-4 col-xl-2">
+          <label>Buy</label>
+          <input id="buy" type="number" class="form-control" min="0" max="700">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-xl-2">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label>Mon AM</label>
+              <input id="sell0" type="number" class="form-control" min="0" max="700">
+            </div>
+            <div class="form-group col-6">
+              <label>Mon PM</label>
+              <input id="sell1" type="number" class="form-control" min="0" max="700">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-4 col-xl-2">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label>Tue AM</label>
+              <input id="sell2" type="number" class="form-control" min="0" max="700">
+            </div>
+            <div class="form-group col-6">
+              <label>Tue PM</label>
+              <input id="sell3" type="number" class="form-control" min="0" max="700">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-4 col-xl-2">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label>Wed AM</label>
+              <input id="sell4" type="number" class="form-control" min="0" max="700">
+            </div>
+            <div class="form-group col-6">
+              <label>Wed PM</label>
+              <input id="sell5" type="number" class="form-control" min="0" max="700">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-4 col-xl-2">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label>Thu AM</label>
+              <input id="sell6" type="number" class="form-control" min="0" max="700">
+            </div>
+            <div class="form-group col-6">
+              <label>Thu PM</label>
+              <input id="sell7" type="number" class="form-control" min="0" max="700">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-4 col-xl-2">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label>Fri AM</label>
+              <input id="sell8" type="number" class="form-control" min="0" max="700">
+            </div>
+            <div class="form-group col-6">
+              <label>Fri PM</label>
+              <input id="sell9" type="number" class="form-control" min="0" max="700">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-4 col-xl-2">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label>Sat AM</label>
+              <input id="sell10" type="number" class="form-control" min="0" max="700">
+            </div>
+            <div class="form-group col-6">
+              <label>Sat PM</label>
+              <input id="sell11" type="number" class="form-control" min="0" max="700">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <pre id="calculator-output">
+
+    </pre>
+    <!-- TODO: table here -->
+    <!-- TODO: "How does this calculator work? v1" -->
+    <!-- TODO: "Version history" -->
   </div>
 
   <script src="./js/turnips.js"></script>
+  <script src="./js/calculator.js"></script>
 </body>
 
 </html>
