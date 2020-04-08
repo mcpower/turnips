@@ -38,7 +38,7 @@ function updateOutput() {
     }
 
     const turnips = Turnips.fromInput(buy, sell);
-    const firstWeek = (document.getElementById("first-week")! as HTMLInputElement).checked;
+    const firstWeek = !!(document.getElementById("first-week") as HTMLInputElement | null)?.checked;
     const patterns = firstWeek ? turnips.generateFirstBuyWeek() : turnips.generateAllPatterns();
     const output = patterns.map((res) => res.toString()).join("\n").replace(/,(?=\d)/g, ", ") || "No solutions found!";
     document.getElementById("calculator-output")!.innerText = output;
@@ -80,7 +80,10 @@ function loadSavedInput() {
 
         if ("firstWeek" in saved) {
             if (saved.firstWeek === true) {
-                (document.getElementById("first-week")! as HTMLInputElement).checked = true;
+                const elt = document.getElementById("first-week") as HTMLInputElement | null;
+                if (elt) {
+                    elt.checked = true;
+                }
             }
         }
     } catch (e) {

@@ -23,6 +23,7 @@ function fromNull(x) {
     return (x !== null && x !== void 0 ? x : undefined);
 }
 function updateOutput() {
+    var _a;
     console.log("updating!");
     var buy = getInputNum("buy");
     var sell = [];
@@ -30,7 +31,7 @@ function updateOutput() {
         sell.push(getInputNum("sell" + i));
     }
     var turnips = Turnips.fromInput(buy, sell);
-    var firstWeek = document.getElementById("first-week").checked;
+    var firstWeek = !!((_a = document.getElementById("first-week")) === null || _a === void 0 ? void 0 : _a.checked);
     var patterns = firstWeek ? turnips.generateFirstBuyWeek() : turnips.generateAllPatterns();
     var output = patterns.map(function (res) { return res.toString(); }).join("\n").replace(/,(?=\d)/g, ", ") || "No solutions found!";
     document.getElementById("calculator-output").innerText = output;
@@ -64,7 +65,10 @@ function loadSavedInput() {
         }
         if ("firstWeek" in saved) {
             if (saved.firstWeek === true) {
-                document.getElementById("first-week").checked = true;
+                var elt = document.getElementById("first-week");
+                if (elt) {
+                    elt.checked = true;
+                }
             }
         }
     }
