@@ -145,13 +145,22 @@
         href="https://elxris.github.io/Turnip-Calculator/">elxris</a>. Be sure to check them out!
     </p>
     <div class="alert alert-warning" role="alert">
-      This calculator is a work in progress!
+      This calculator is a work in progress! While the output for the calculator is very primitive and not pretty, the
+      calculations should be correct.
     </div>
     <form id="calculator-input">
-      <div class="row mb-3">
+      <div class="row">
         <div class="form-group col-12 col-sm-4 col-xl-2">
           <label>Buy</label>
           <input id="buy" type="number" class="form-control" min="0" max="700">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-12">
+          <div class="form-check">
+            <input id="first-week" type="checkbox" class="form-check-input">
+            <label class="form-check-label">First week buying on own island?</label>
+          </div>
         </div>
       </div>
 

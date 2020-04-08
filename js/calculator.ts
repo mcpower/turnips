@@ -38,10 +38,12 @@ function updateOutput() {
     }
 
     const turnips = Turnips.fromInput(buy, sell);
-    const output = turnips.generateAllPatterns().map((res) => res.toString()).join("\n").replace(/,(?=\d)/g, ", ") || "No solutions found!";
+    const firstWeek = (document.getElementById("first-week")! as HTMLInputElement).checked;
+    const patterns = firstWeek ? turnips.generateFirstBuyWeek() : turnips.generateAllPatterns();
+    const output = patterns.map((res) => res.toString()).join("\n").replace(/,(?=\d)/g, ", ") || "No solutions found!";
     document.getElementById("calculator-output")!.innerText = output;
 
-    localStorage.setItem("input", JSON.stringify({buy: toNull(buy), sell: sell.map(toNull)}));
+    localStorage.setItem("input", JSON.stringify({buy: toNull(buy), sell: sell.map(toNull), firstWeek}));
 }
 
 function loadSavedInput() {
@@ -57,21 +59,29 @@ function loadSavedInput() {
         }
         // saved is guaranteed to be object-like.
         // from now on, gracefully handle sell/buy errors.
-        if (!("sell" in saved) || !("buy" in saved)) {
-            return;
+
+        if ("buy" in saved) {
+            const buy = saved.buy;
+            if (typeof buy === "number" || buy === null) {
+                setInputNum("buy", fromNull(buy));
+            }
         }
-        const buy = saved.buy;
-        if (typeof buy === "number" || buy === null) {
-            setInputNum("buy", fromNull(buy));
+
+        if ("sell" in saved) {
+            const sell = saved.sell;
+            if (Array.isArray(sell)) {
+                sell.forEach((val, i) => {
+                    if (i < 12 && typeof val === "number" || val === null) {
+                        setInputNum("sell" + i, fromNull(val));
+                    }
+                });
+            }
         }
-        
-        const sell = saved.sell;
-        if (Array.isArray(sell)) {
-            sell.forEach((val, i) => {
-                if (i < 12 && typeof val === "number" || val === null) {
-                    setInputNum("sell" + i, fromNull(val));
-                }
-            });
+
+        if ("firstWeek" in saved) {
+            if (saved.firstWeek === true) {
+                (document.getElementById("first-week")! as HTMLInputElement).checked = true;
+            }
         }
     } catch (e) {
 
