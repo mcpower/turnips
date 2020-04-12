@@ -43,17 +43,18 @@
     </div>
     <form id="calculator-input">
       <div class="row">
-        <div class="form-group col-12 col-sm-4 col-xl-2">
-          <label for="buy">Buy</label>
-          <input id="buy" type="number" class="form-control" min="0" max="700">
-        </div>
-      </div>
-      <div class="row">
         <div class="form-group col-12">
           <div class="form-check">
             <input id="first-week" type="checkbox" class="form-check-input">
             <label class="form-check-label" for="first-week">First week buying on own island?</label>
           </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-12 col-sm-4 col-xl-2">
+          <label for="buy">Buy</label>
+          <input id="buy" type="number" class="form-control" min="0" max="700">
         </div>
       </div>
 
@@ -134,6 +135,12 @@
               <input id="sell11" type="number" class="form-control" min="0" max="700">
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+          <button type="button" class="btn btn-danger btn-block" id="clear-button">Clear everything</button>
         </div>
       </div>
     </form>
