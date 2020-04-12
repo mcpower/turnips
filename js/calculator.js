@@ -80,10 +80,10 @@ function setInput(input) {
     setInputNum("buy", input.buy);
     setSellInput(input.sell);
     setInputBool("first-week", input.firstWeek);
-    updateOutput();
 }
 function clearInput() {
     setInput(BLANK_INPUT);
+    updateOutput();
 }
 function loadInput() {
     var out = __assign({}, BLANK_INPUT);
@@ -164,6 +164,7 @@ function importSell() {
         }
     });
     setSellInput(sell);
+    updateOutput();
 }
 window.addEventListener("load", function () {
     var _a, _b;
@@ -171,4 +172,5 @@ window.addEventListener("load", function () {
     (_a = document.getElementById("clear-button")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function () { return clearInput(); });
     (_b = document.getElementById("import-sell-button")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", function () { return importSell(); });
     loadSavedInput();
+    updateOutput();
 });

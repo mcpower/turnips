@@ -71,16 +71,15 @@ function getInput(): Input {
     return { buy, sell, firstWeek };
 }
 
-// Updates output too.
 function setInput(input: Input) {
     setInputNum("buy", input.buy);
     setSellInput(input.sell);
     setInputBool("first-week", input.firstWeek);
-    updateOutput();
 }
 
 function clearInput() {
     setInput(BLANK_INPUT);
+    updateOutput();
 }
 
 function loadInput(): Input {
@@ -175,6 +174,7 @@ function importSell() {
         }
     });
     setSellInput(sell);
+    updateOutput();
 }
 
 window.addEventListener("load", () => {
@@ -182,4 +182,5 @@ window.addEventListener("load", () => {
     document.getElementById("clear-button")?.addEventListener("click", () => clearInput());
     document.getElementById("import-sell-button")?.addEventListener("click", () => importSell());
     loadSavedInput();
+    updateOutput();
 });
