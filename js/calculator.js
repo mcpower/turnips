@@ -10,6 +10,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 var BLANK_INPUT = {
     buy: undefined,
     sell: Array(12).map(function (_) { return undefined; }),
@@ -55,6 +62,11 @@ function setInputBool(id, bool) {
     }
     elt.checked = bool;
 }
+function setSellInput(sell) {
+    for (var i = 0; i < 12; i++) {
+        setInputNum("sell" + i, sell[i]);
+    }
+}
 function getInput() {
     var buy = getInputNum("buy");
     var sell = [];
@@ -66,9 +78,7 @@ function getInput() {
 }
 function setInput(input) {
     setInputNum("buy", input.buy);
-    for (var i = 0; i < 12; i++) {
-        setInputNum("sell" + i, input.sell[i]);
-    }
+    setSellInput(input.sell);
     setInputBool("first-week", input.firstWeek);
     updateOutput();
 }
@@ -138,9 +148,27 @@ function updateOutput() {
 function loadSavedInput() {
     setInput(loadInput());
 }
+function importSell() {
+    var input = window.prompt("Paste in your sell prices, separated by tabs, commas, new-lines or spaces.");
+    if (input === null) {
+        return;
+    }
+    var sell = __spreadArrays(BLANK_INPUT.sell);
+    input.split(/[\t\n, ]/).forEach(function (val, i) {
+        if (i >= 12) {
+            return;
+        }
+        var num = parseInt(val, 10);
+        if (!isNaN(num)) {
+            sell[i] = num;
+        }
+    });
+    setSellInput(sell);
+}
 window.addEventListener("load", function () {
-    var _a;
+    var _a, _b;
     document.addEventListener("input", function () { return updateOutput(); });
     (_a = document.getElementById("clear-button")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function () { return clearInput(); });
+    (_b = document.getElementById("import-sell-button")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", function () { return importSell(); });
     loadSavedInput();
 });

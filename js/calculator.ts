@@ -55,6 +55,12 @@ function setInputBool(id: string, bool: boolean) {
     elt.checked = bool;
 }
 
+function setSellInput(sell: Input["sell"]) {
+    for (let i = 0; i < 12; i++) {
+        setInputNum("sell" + i, sell[i]);
+    }
+}
+
 function getInput(): Input {
     const buy = getInputNum("buy");
     const sell: (number | undefined)[] = [];
@@ -68,9 +74,7 @@ function getInput(): Input {
 // Updates output too.
 function setInput(input: Input) {
     setInputNum("buy", input.buy);
-    for (let i = 0; i < 12; i++) {
-        setInputNum("sell" + i, input.sell[i])
-    }
+    setSellInput(input.sell);
     setInputBool("first-week", input.firstWeek);
     updateOutput();
 }
@@ -155,8 +159,27 @@ function loadSavedInput() {
     setInput(loadInput());
 }
 
+function importSell() {
+    const input = window.prompt("Paste in your sell prices, separated by tabs, commas, new-lines or spaces.");
+    if (input === null) {
+        return;
+    }
+    const sell: (number | undefined)[] = [...BLANK_INPUT.sell];
+    input.split(/[\t\n, ]/).forEach((val, i) => {
+        if (i >= 12) {
+            return;
+        }
+        const num = parseInt(val, 10);
+        if (!isNaN(num)) {
+            sell[i] = num;
+        }
+    });
+    setSellInput(sell);
+}
+
 window.addEventListener("load", () => {
     document.addEventListener("input", () => updateOutput());
     document.getElementById("clear-button")?.addEventListener("click", () => clearInput());
+    document.getElementById("import-sell-button")?.addEventListener("click", () => importSell());
     loadSavedInput();
 });
